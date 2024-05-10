@@ -3,6 +3,7 @@
     display: flex;
     gap: 8px;
     padding: 16px;
+    border-bottom: 2px solid rgba(56, 22, 83, 0.747);
 }
 
 .link.active {
