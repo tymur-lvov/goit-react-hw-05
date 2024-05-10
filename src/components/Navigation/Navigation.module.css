@@ -1,0 +1,10 @@
+.nav {
+    background-color: rgb(86, 219, 164);
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+}
+
+.link.active {
+    color: rgba(56, 22, 83, 0.747);
+}
