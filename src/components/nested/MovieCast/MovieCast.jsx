@@ -6,6 +6,7 @@ import s from "./MovieCast.module.css";
 
 function MovieCast() {
   const [cast, setCast] = useState(null);
+
   const { movieId } = useParams();
 
   useEffect(() => {

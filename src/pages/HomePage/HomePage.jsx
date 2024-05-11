@@ -30,7 +30,7 @@ function HomePage() {
           visible={true}
         />
       ) : (
-        <>
+        <div className="container">
           <h2>Trending today</h2>
           <ul className={s.list}>
             {movies.map((movie) => (
@@ -39,7 +39,7 @@ function HomePage() {
               </li>
             ))}
           </ul>
-        </>
+        </div>
       )}
     </>
   );

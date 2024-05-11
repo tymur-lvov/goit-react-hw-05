@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchMoviesById } from "../../services/api";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { Blocks } from "react-loader-spinner";
 import s from "./MovieDetailsPage.module.css";
 
@@ -8,6 +8,8 @@ function MovieDetailsPage() {
   const [movie, setMovie] = useState(null);
 
   const { movieId } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -39,7 +41,9 @@ function MovieDetailsPage() {
         />
       ) : (
         <div className="container">
-          <button className={s.button}>Go back</button>
+          <button className={s.button} onClick={() => navigate("/")}>
+            Go back
+          </button>
           <div className={s.img_wrapper}>
             <img
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
