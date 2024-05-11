@@ -1,11 +1,16 @@
 .nav {
-    background-color: rgb(86, 219, 164);
+    background-color: goldenrod;
     display: flex;
     gap: 8px;
     padding: 16px;
-    border-bottom: 2px solid rgba(56, 22, 83, 0.747);
+    border-bottom: 2px solid slateblue;
+    margin-bottom: 8px;
+}
+
+.link {
+    color: black
 }
 
 .link.active {
-    color: rgba(56, 22, 83, 0.747);
+    color: slateblue;
 }

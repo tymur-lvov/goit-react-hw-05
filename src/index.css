@@ -24,6 +24,15 @@ ul {
   font-weight: normal;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: black;
+}
+
 ol,
 ul {
   list-style: none;
@@ -42,4 +51,9 @@ a {
 
 body {
   font-size: 24px;
+  color: slategrey;
+}
+
+.container {
+  padding: 0 15px;
 }

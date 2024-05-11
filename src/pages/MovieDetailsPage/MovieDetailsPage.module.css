@@ -1,0 +1,33 @@
+.button {
+    font-size: inherit;
+    border: 1px solid #000;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.img_wrapper {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.content_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.genres_list {
+    display: flex;
+    gap: 8px;
+}
+
+.information_list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: slateblue;
+    text-decoration: underline;
+    margin-top: 8px;
+}

@@ -1,0 +1,18 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dots {
+    color: slateblue;
+    cursor: pointer;
+    text-decoration: underline;
+}
