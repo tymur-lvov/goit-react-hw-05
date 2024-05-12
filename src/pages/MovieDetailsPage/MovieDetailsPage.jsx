@@ -5,7 +5,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Blocks } from "react-loader-spinner";
 import { fetchMoviesById } from "../../services/api";
 import s from "./MovieDetailsPage.module.css";
@@ -81,14 +81,28 @@ function MovieDetailsPage() {
           </div>
           <p>Additional information</p>
           <ul className={s.information_list}>
-            <Link to={`/movies/${movieId}/cast`} state={location.state}>
+            <Link to={`/movies/${movieId}/cast`} state={locationRef.current}>
               Cast
             </Link>
-            <Link to={`/movies/${movieId}/reviews`} state={location.state}>
+            <Link to={`/movies/${movieId}/reviews`} state={locationRef.current}>
               Reviews
             </Link>
           </ul>
-          <Outlet />
+          <Suspense
+            fallback={
+              <Blocks
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                visible={true}
+              />
+            }
+          >
+            <Outlet />
+          </Suspense>
         </div>
       )}
     </>
