@@ -76,8 +76,12 @@ function MovieDetailsPage() {
           </div>
           <p>Additional information</p>
           <ul className={s.information_list}>
-            <Link to={`/movies/${movieId}/cast`}>Cast</Link>
-            <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+            <Link to={`/movies/${movieId}/cast`} state={location.state}>
+              Cast
+            </Link>
+            <Link to={`/movies/${movieId}/reviews`} state={location.state}>
+              Reviews
+            </Link>
           </ul>
           <Outlet />
         </div>

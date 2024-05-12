@@ -35,7 +35,9 @@ function HomePage() {
           <ul className={s.list}>
             {movies.map((movie) => (
               <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>{movie.original_title}</Link>
+                <Link to={`/movies/${movie.id}`} state={"/"}>
+                  {movie.original_title}
+                </Link>
               </li>
             ))}
           </ul>

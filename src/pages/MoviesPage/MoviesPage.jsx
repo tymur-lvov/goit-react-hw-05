@@ -18,7 +18,7 @@ function MoviesPage() {
       };
       fetchMovies();
     }
-  }, []);
+  }, [searchQuery]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
