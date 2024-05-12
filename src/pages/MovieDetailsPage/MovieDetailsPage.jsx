@@ -5,7 +5,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Blocks } from "react-loader-spinner";
 import { fetchMoviesById } from "../../services/api";
 import s from "./MovieDetailsPage.module.css";
@@ -18,6 +18,8 @@ function MovieDetailsPage() {
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  const locationRef = useRef(location.state || "/");
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -49,7 +51,10 @@ function MovieDetailsPage() {
         />
       ) : (
         <div className="container">
-          <button className={s.button} onClick={() => navigate(location.state)}>
+          <button
+            className={s.button}
+            onClick={() => navigate(locationRef.current)}
+          >
             Go back
           </button>
           <div className={s.img_wrapper}>
