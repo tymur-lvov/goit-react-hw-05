@@ -38,7 +38,9 @@ function MovieReviews() {
         />
       ) : (
         <>
-          {reviews.length === 0 && <p>No reviews yet</p>}
+          {reviews.length === 0 && (
+            <p className={s.no_reviews}>No reviews yet</p>
+          )}
           {reviews.length > 0 && (
             <ul className={s.list}>
               {reviews.map((review) => (

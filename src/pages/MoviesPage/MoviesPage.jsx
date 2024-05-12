@@ -1,13 +1,24 @@
-import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { fetchMoviesByQuery } from "../../services/api";
-import { Blocks } from "react-loader-spinner";
 import s from "./MoviesPage.module.css";
 
 function MoviesPage() {
   const [movies, setMovies] = useState(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("query");
+
+  useEffect(() => {
+    if (searchQuery !== null) {
+      const fetchMovies = async () => {
+        const moviesData = await fetchMoviesByQuery(searchQuery);
+
+        setMovies(moviesData);
+      };
+      fetchMovies();
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,22 +42,17 @@ function MoviesPage() {
           Search
         </button>
       </form>
-      {!movies ? (
-        <Blocks
-          height="80"
-          width="80"
-          color="#4fa94d"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          visible={true}
-        />
-      ) : (
+      {movies !== null && (
         <>
           <ul className={s.list}>
             {movies.map((movie) => (
               <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>{movie.original_title}</Link>
+                <Link
+                  to={`/movies/${movie.id}`}
+                  state={`/movies?query=${searchQuery}`}
+                >
+                  {movie.original_title}
+                </Link>
               </li>
             ))}
           </ul>

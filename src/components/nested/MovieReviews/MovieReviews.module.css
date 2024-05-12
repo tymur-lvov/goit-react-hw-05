@@ -16,3 +16,7 @@
     cursor: pointer;
     text-decoration: overline
 }
+
+.no_reviews {
+    margin-top: 12px;
+}
