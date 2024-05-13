@@ -1,8 +1,7 @@
 import { Blocks } from "react-loader-spinner";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchTrendingMovies } from "../../services/api";
-import s from "./HomePage.module.css";
+import MovieList from "../../components/MovieList/MovieList";
 
 function HomePage() {
   const [movies, setMovies] = useState([]);
@@ -32,15 +31,7 @@ function HomePage() {
       ) : (
         <div className="container">
           <h2>Trending today</h2>
-          <ul className={s.list}>
-            {movies.map((movie) => (
-              <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`} state={"/"}>
-                  {movie.original_title}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <MovieList movies={movies} />
         </div>
       )}
     </>

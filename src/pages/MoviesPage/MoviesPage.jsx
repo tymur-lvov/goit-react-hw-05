@@ -1,64 +1,106 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchMoviesByQuery } from "../../services/api";
+import { Blocks } from "react-loader-spinner";
+import toast, { Toaster } from "react-hot-toast";
+import MovieList from "../../components/MovieList/MovieList";
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import s from "./MoviesPage.module.css";
 
 function MoviesPage() {
-  const [movies, setMovies] = useState(null);
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
+
   const searchQuery = searchParams.get("query");
 
   useEffect(() => {
-    if (searchQuery !== null) {
+    if (!isSubmitted && searchQuery !== null) {
       const fetchMovies = async () => {
-        const moviesData = await fetchMoviesByQuery(searchQuery);
+        try {
+          setIsError(false);
 
-        setMovies(moviesData);
+          setIsLoading(true);
+
+          const moviesData = await fetchMoviesByQuery(searchQuery);
+
+          setMovies(moviesData);
+        } catch (error) {
+          setIsError(true);
+        } finally {
+          setIsLoading(false);
+        }
       };
+
       fetchMovies();
     }
-  }, [searchQuery]);
+  }, [isSubmitted, searchQuery]);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    const moviesData = await fetchMoviesByQuery(
-      event.target.elements.search.value
-    );
+      setIsError(false);
 
-    setMovies(moviesData);
+      if (event.target.elements.search.value.trim() === "") {
+        toast.error("Field can't be empty!");
 
-    setSearchParams({ query: event.target.elements.search.value });
+        event.target.reset();
 
-    event.target.reset();
+        return;
+      }
+
+      setMovies([]);
+
+      setIsSubmitted(true);
+
+      setIsLoading(true);
+
+      const moviesData = await fetchMoviesByQuery(
+        event.target.elements.search.value.trim()
+      );
+
+      setMovies(moviesData);
+
+      setSearchParams({ query: event.target.elements.search.value.trim() });
+
+      event.target.reset();
+    } catch (error) {
+      setIsError(true);
+      console.log(1);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="container">
-      <form className={s.form} onSubmit={handleSubmit}>
-        <input className={s.input} type="text" name="search" />
-        <button className={s.button} type="submit">
-          Search
-        </button>
-      </form>
-      {movies !== null && (
-        <>
-          <ul className={s.list}>
-            {movies.map((movie) => (
-              <li key={movie.id}>
-                <Link
-                  to={`/movies/${movie.id}`}
-                  state={`/movies?query=${searchQuery}`}
-                >
-                  {movie.original_title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-    </div>
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="container">
+        <form className={s.form} onSubmit={handleSubmit}>
+          <input className={s.input} type="text" name="search" />
+          <button className={s.button} type="submit">
+            Search
+          </button>
+        </form>
+        {isLoading && (
+          <Blocks
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            visible={true}
+          />
+        )}
+        {movies.length !== 0 && <MovieList movies={movies} />}
+        {isError && <ErrorMessage />}
+      </div>
+    </>
   );
 }
 
