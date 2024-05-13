@@ -10,7 +10,6 @@ import s from "./MoviesPage.module.css";
 function MoviesPage() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,62 +17,41 @@ function MoviesPage() {
   const searchQuery = searchParams.get("query");
 
   useEffect(() => {
-    if (!isSubmitted && searchQuery !== null) {
-      const fetchMovies = async () => {
-        try {
-          setIsError(false);
+    const fetchMovies = async () => {
+      try {
+        setMovies([]);
 
-          setIsLoading(true);
+        setIsError(false);
 
-          const moviesData = await fetchMoviesByQuery(searchQuery);
+        setIsLoading(true);
 
-          setMovies(moviesData);
-        } catch (error) {
-          setIsError(true);
-        } finally {
-          setIsLoading(false);
-        }
-      };
+        const moviesData = await fetchMoviesByQuery(searchQuery);
 
-      fetchMovies();
-    }
-  }, [isSubmitted, searchQuery]);
-
-  const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
-
-      setIsError(false);
-
-      if (event.target.elements.search.value.trim() === "") {
-        toast.error("Field can't be empty!");
-
-        event.target.reset();
-
-        return;
+        setMovies(moviesData);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      setMovies([]);
+    fetchMovies();
+  }, [searchQuery]);
 
-      setIsSubmitted(true);
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-      setIsLoading(true);
-
-      const moviesData = await fetchMoviesByQuery(
-        event.target.elements.search.value.trim()
-      );
-
-      setMovies(moviesData);
-
-      setSearchParams({ query: event.target.elements.search.value.trim() });
+    if (event.target.elements.search.value.trim() === "") {
+      toast.error("Field can't be empty!");
 
       event.target.reset();
-    } catch (error) {
-      setIsError(true);
-      console.log(1);
-    } finally {
-      setIsLoading(false);
+
+      return;
     }
+
+    setSearchParams({ query: event.target.elements.search.value.trim() });
+
+    event.target.reset();
   };
 
   return (
